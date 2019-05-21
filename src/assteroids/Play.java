@@ -5,6 +5,7 @@
  */
 package assteroids;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 /**
@@ -13,22 +14,69 @@ import org.newdawn.slick.state.*;
  */
 public class Play extends BasicGameState {
 
+    Ship spaceShip;
+    String mouse = "n mexeu n vei";
+    float timeCounter;
     public Play(int state){
+        
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg){
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
+        this.spaceShip = new Ship(320, 180, "res/ship.png");
+        timeCounter = 0;
         
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs){
-         //To change body of generated methods, choose Tools | Templates.
+        //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
+        grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
+        //grphcs.drawRect(50, 100, 20 , 60);
+        spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        spaceShip.shots.showShots();
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i){
-       //To change body of generated methods, choose Tools | Templates.
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
+        //int x = Mouse.getX();
+        //int y = Mouse.getY();
+        //mouse = "x :" + x + " y: " + y;
+        Input input = gc.getInput();
+        
+        if(input.isKeyDown(Keyboard.KEY_RETURN)){
+            sbg.enterState(1);
+        }
+        
+        if(input.isKeyDown(Keyboard.KEY_W)){
+            spaceShip.accelerate(-0.01);
+        }
+        if(input.isKeyDown(Keyboard.KEY_S)){
+            spaceShip.accelerate(0.01);
+        }
+        
+        if(input.isKeyDown(Keyboard.KEY_A)){
+            spaceShip.turn(-0.24f * delta);
+            spaceShip.img.rotate(-0.24f * delta);
+        }
+        
+        if(input.isKeyDown(Keyboard.KEY_D)){
+            spaceShip.turn(0.24f * delta);
+            spaceShip.img.rotate(0.24f * delta);
+        }
+        
+        if(input.isKeyDown(Keyboard.KEY_F) && timeCounter >= 5 *delta){
+            timeCounter = 0;
+            spaceShip.shoot();
+        }
+        
+        timeCounter += delta;
+        spaceShip.shots.moveShots(delta);
+        spaceShip.y += delta * spaceShip.vely;
+        spaceShip.x += delta * spaceShip.velx;
+        
+        
+        
     }
 
     @Override

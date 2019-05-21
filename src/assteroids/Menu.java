@@ -18,7 +18,7 @@ import org.newdawn.slick.*;
 
 public class Menu extends BasicGameState{
     
-    Ship spaceShip;
+    Image pressStart, fAsteroid;
     String mouse = "n mexeu n vei";
     float timeCounter;
     public Menu(int state){
@@ -27,17 +27,19 @@ public class Menu extends BasicGameState{
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-         this.spaceShip = new Ship(320, 180, "res/ship.png");
-         timeCounter = 0;
+         pressStart = new Image("res/press.png");
+         fAsteroid = new Image("res/asteroid.png");
          //this.spaceShip.img.setCenterOfRotation(this.spaceShip.x + 25, this.spaceShip.y + 25);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException{
-        grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
+        //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
+        grphcs.drawImage(pressStart, (1280 - pressStart.getWidth())/2, 600);
+        grphcs.drawImage(fAsteroid, (1280 - fAsteroid.getWidth())/2, 300);
+        
         //grphcs.drawRect(50, 100, 20 , 60);
-        spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
-        spaceShip.shots.showShots();
+        
         
     }
 
@@ -48,35 +50,9 @@ public class Menu extends BasicGameState{
         //mouse = "x :" + x + " y: " + y;
         Input input = gc.getInput();
         
-        if(input.isKeyDown(Keyboard.KEY_W)){
-            spaceShip.accelerate(-0.01);
+        if(input.isKeyDown(Keyboard.KEY_RETURN)){
+            sbg.enterState(1);
         }
-        if(input.isKeyDown(Keyboard.KEY_S)){
-            spaceShip.accelerate(0.01);
-        }
-        
-        if(input.isKeyDown(Keyboard.KEY_A)){
-            spaceShip.turn(-0.12f * delta);
-            spaceShip.img.rotate(-0.12f * delta);
-        }
-        
-        if(input.isKeyDown(Keyboard.KEY_D)){
-            spaceShip.turn(0.12f * delta);
-            spaceShip.img.rotate(0.12f * delta);
-        }
-        
-        if(input.isKeyDown(Keyboard.KEY_F) && timeCounter >= 5 *delta){
-            timeCounter = 0;
-            spaceShip.shoot();
-        }
-        
-        timeCounter += delta;
-        spaceShip.shots.moveShots(delta);
-        spaceShip.y += delta * spaceShip.vely;
-        spaceShip.x += delta * spaceShip.velx;
-        
-        
-        
     }
 
     @Override

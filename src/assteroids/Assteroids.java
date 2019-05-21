@@ -30,7 +30,7 @@ public class Assteroids extends StateBasedGame{
         try{
             appgc = new AppGameContainer(new Assteroids(name));
             appgc.setTargetFrameRate(60);
-            appgc.setDisplayMode(640, 360, false);
+            appgc.setDisplayMode(1280, 960, false);
             appgc.start();
         }catch(SlickException e){
             e.printStackTrace();
