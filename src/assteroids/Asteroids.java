@@ -12,13 +12,13 @@ import org.newdawn.slick.*;
  *
  * @author MVale
  */
-public class Assteroids extends StateBasedGame{
+public class Asteroids extends StateBasedGame{
     
     public static final String name = "Assteroids";
     public static final int menu = 0;
     public static final int play = 1;
     
-    public Assteroids(String name) throws SlickException{
+    public Asteroids(String name) throws SlickException{
         super(name);
         this.addState(new Menu(menu));
         this.addState(new Play(play));
@@ -28,7 +28,7 @@ public class Assteroids extends StateBasedGame{
         AppGameContainer appgc;
         
         try{
-            appgc = new AppGameContainer(new Assteroids(name));
+            appgc = new AppGameContainer(new Asteroids(name));
             appgc.setTargetFrameRate(60);
             appgc.setDisplayMode(1280, 960, false);
             appgc.start();

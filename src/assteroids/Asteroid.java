@@ -5,10 +5,16 @@
  */
 package assteroids;
 
+import org.newdawn.slick.SlickException;
+
 /**
  *
  * @author dlcaio
  */
-public class Asteroid {
+public class Asteroid extends GameObject{
+    
+    public Asteroid(int x, int y, String ref) throws SlickException {
+        super(x, y, ref);
+    }
     
 }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package assteroids;
-
+import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
@@ -15,15 +15,17 @@ import org.newdawn.slick.state.*;
 public class Play extends BasicGameState {
 
     Ship spaceShip;
-    String mouse = "n mexeu n vei";
     float timeCounter;
+    String mouse = "No input yet";
+    
     public Play(int state){
         
     }
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        this.spaceShip = new Ship(320, 180, "res/ship.png");
+        this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
+        this.spaceShip.img.setCenterOfRotation(28, 28);
         timeCounter = 0;
         
     }
@@ -31,17 +33,19 @@ public class Play extends BasicGameState {
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs){
         //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
-        grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
+        //grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
         //grphcs.drawRect(50, 100, 20 , 60);
+        grphcs.drawString(mouse, 50, 50);
         spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        
         spaceShip.shots.showShots();
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
-        //int x = Mouse.getX();
-        //int y = Mouse.getY();
-        //mouse = "x :" + x + " y: " + y;
+        int x = Mouse.getX();
+        int y = Mouse.getY();
+        mouse = "x :" + x + " y: " + y;
         Input input = gc.getInput();
         
         if(input.isKeyDown(Keyboard.KEY_RETURN)){
@@ -74,6 +78,8 @@ public class Play extends BasicGameState {
         spaceShip.shots.moveShots(delta);
         spaceShip.y += delta * spaceShip.vely;
         spaceShip.x += delta * spaceShip.velx;
+        spaceShip.bicoX += delta * spaceShip.velx;
+        spaceShip.bicoY += delta * spaceShip.vely;
         
         
         

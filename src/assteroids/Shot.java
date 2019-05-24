@@ -31,7 +31,7 @@ class ShotArray{
     
     void add(int x, int y, float direction) throws SlickException{
         Shot newShot = new Shot(x, y, "res/shot.png", direction);
-        newShot.img.setCenterOfRotation(newShot.x/2, newShot.y/2);
+        newShot.img.setCenterOfRotation(28, 28);
         newShot.img.setRotation(direction - 90);
         shots.add(newShot);
     }
@@ -49,6 +49,7 @@ class ShotArray{
     
     void showShots(){
         for(Shot shot : this.shots){
+            shot.img.setCenterOfRotation(28, 28);
             shot.img.draw(shot.x, shot.y);
         }
     }

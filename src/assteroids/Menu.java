@@ -20,7 +20,7 @@ public class Menu extends BasicGameState{
     
     Image pressStart, fAsteroid;
     String mouse = "n mexeu n vei";
-    float timeCounter;
+    float timeCounter;   
     public Menu(int state){
         
     }
@@ -35,8 +35,11 @@ public class Menu extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException{
         //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
+        
+        //grphcs.drawString(mouse, 300, 300);
+        
         grphcs.drawImage(pressStart, (1280 - pressStart.getWidth())/2, 600);
-        grphcs.drawImage(fAsteroid, (1280 - fAsteroid.getWidth())/2, 300);
+        //grphcs.drawImage(fAsteroid, (1280 - fAsteroid.getWidth())/2, 300);
         
         //grphcs.drawRect(50, 100, 20 , 60);
         
