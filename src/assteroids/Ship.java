@@ -14,12 +14,9 @@ import org.newdawn.slick.*;
  */
 public class Ship extends GameObject{
     ShotArray shots;
-    int bicoX, bicoY;
     
-    Ship(int x, int y, String ref, int bX, int bY) throws SlickException{
+    Ship(int x, int y, String ref) throws SlickException{
         super(x, y, ref);
-        this.bicoX = bX;
-        this.bicoY = bY;
         imgscale = 0.1f;
         this.shots = new ShotArray();
         this.img.setCenterOfRotation((this.img.getWidth()/2)*this.imgscale, (this.img.getWidth()/2)*this.imgscale);

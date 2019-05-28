@@ -17,6 +17,7 @@ public class Play extends BasicGameState {
     Ship spaceShip;
     float timeCounter;
     String mouse = "No input yet";
+    Asteroid ast;
     
     public Play(int state){
         
@@ -24,10 +25,11 @@ public class Play extends BasicGameState {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
+        this.spaceShip = new Ship(320, 180, "res/ship.png");
         this.spaceShip.img.setCenterOfRotation(28, 28);
+        this.ast = new Asteroid(500, 500, "res/ast1.png");
+        this.ast.img.setCenterOfRotation(25, 25);
         timeCounter = 0;
-        
     }
 
     @Override
@@ -35,8 +37,32 @@ public class Play extends BasicGameState {
         //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
         //grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
         //grphcs.drawRect(50, 100, 20 , 60);
+        grphcs.setBackground(Color.blue);
         grphcs.drawString(mouse, 50, 50);
         spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        ast.img.draw(500, 500, 50, 50);
+        
+        if(spaceShip.x > 1280){
+            spaceShip.x = (int) -(spaceShip.img.getWidth() * spaceShip.imgscale);
+            spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        }
+        
+        if(spaceShip.x + spaceShip.img.getWidth() * spaceShip.imgscale  < 0){
+           
+            spaceShip.x = 1280;
+            spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        }
+        
+        if(spaceShip.y > 960){
+            spaceShip.y = (int) -(spaceShip.img.getHeight() * spaceShip.imgscale);
+            spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        }
+        
+        if(spaceShip.y + spaceShip.img.getHeight() * spaceShip.imgscale  < 0){
+           
+            spaceShip.y = 960;
+            spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        }
         
         spaceShip.shots.showShots();
     }
@@ -45,8 +71,18 @@ public class Play extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
         int x = Mouse.getX();
         int y = Mouse.getY();
-        mouse = "x :" + x + " y: " + y;
+        mouse = "x :" + spaceShip.x + " y: " + spaceShip.y;
+        
         Input input = gc.getInput();
+        
+        
+        ast.spin(-0.24f * delta);
+        ast.img.rotate(-0.24f * delta);
+        
+        
+        
+        
+        
         
         if(input.isKeyDown(Keyboard.KEY_RETURN)){
             sbg.enterState(1);
@@ -78,8 +114,7 @@ public class Play extends BasicGameState {
         spaceShip.shots.moveShots(delta);
         spaceShip.y += delta * spaceShip.vely;
         spaceShip.x += delta * spaceShip.velx;
-        spaceShip.bicoX += delta * spaceShip.velx;
-        spaceShip.bicoY += delta * spaceShip.vely;
+        
         
         
         
