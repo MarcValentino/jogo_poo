@@ -31,6 +31,18 @@ public class Menu extends BasicGameState{
          fAsteroid = new Image("res/asteroid.png");
          //this.spaceShip.img.setCenterOfRotation(this.spaceShip.x + 25, this.spaceShip.y + 25);
     }
+    
+    @Override
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
+        //int x = Mouse.getX();
+        //int y = Mouse.getY();
+        //mouse = "x :" + x + " y: " + y;
+        Input input = gc.getInput();
+        
+        if(input.isKeyDown(Keyboard.KEY_RETURN)){
+            sbg.enterState(1);
+        }
+    }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException{
@@ -46,17 +58,7 @@ public class Menu extends BasicGameState{
         
     }
 
-    @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
-        //int x = Mouse.getX();
-        //int y = Mouse.getY();
-        //mouse = "x :" + x + " y: " + y;
-        Input input = gc.getInput();
-        
-        if(input.isKeyDown(Keyboard.KEY_RETURN)){
-            sbg.enterState(1);
-        }
-    }
+    
 
     @Override
     public int getID() {
