@@ -30,6 +30,7 @@ public class Play extends BasicGameState {
         this.ast = new Asteroid(500, 500, "res/ast1.png");
         this.ast.img.setCenterOfRotation(25, 25);
         timeCounter = 0;
+        
     }
 
     @Override
@@ -37,10 +38,10 @@ public class Play extends BasicGameState {
         //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
         //grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
         //grphcs.drawRect(50, 100, 20 , 60);
-        grphcs.setBackground(Color.blue);
+        
         grphcs.drawString(mouse, 50, 50);
         spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
-        ast.img.draw(500, 500, 50, 50);
+        ast.img.draw(500, 500, 100, 100);
         
         if(spaceShip.x > 1280){
             spaceShip.x = (int) -(spaceShip.img.getWidth() * spaceShip.imgscale);

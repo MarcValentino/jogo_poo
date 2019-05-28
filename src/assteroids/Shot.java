@@ -19,7 +19,6 @@ class Shot extends GameObject{
         this.vely = -1 * Math.sin(Math.toRadians(direction));
         this.direction = direction;
     }
-    
 }
 
 class ShotArray{
