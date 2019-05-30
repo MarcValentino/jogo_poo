@@ -17,6 +17,7 @@ public class Play extends BasicGameState {
     Ship spaceShip;
     float timeCounter;
     String mouse = "No input yet";
+    AsteroidGenerator asteroidGenerator;
     
     public Play(int state){
         
@@ -27,6 +28,7 @@ public class Play extends BasicGameState {
         this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
         this.spaceShip.img.setCenterOfRotation(28, 28);
         timeCounter = 0;
+        this.asteroidGenerator = new AsteroidGenerator(1280, 960);
         
     }
 
@@ -37,7 +39,7 @@ public class Play extends BasicGameState {
         //grphcs.drawRect(50, 100, 20 , 60);
         grphcs.drawString(mouse, 50, 50);
         spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
-        
+        this.asteroidGenerator.showAsteroids();
         spaceShip.shots.showShots();
     }
 
@@ -47,6 +49,7 @@ public class Play extends BasicGameState {
         int y = Mouse.getY();
         mouse = "x :" + x + " y: " + y;
         Input input = gc.getInput();
+        this.asteroidGenerator.spawnAsteroids(delta, this.spaceShip);
         
         if(input.isKeyDown(Keyboard.KEY_RETURN)){
             sbg.enterState(1);
@@ -80,6 +83,7 @@ public class Play extends BasicGameState {
         spaceShip.x += delta * spaceShip.velx;
         spaceShip.bicoX += delta * spaceShip.velx;
         spaceShip.bicoY += delta * spaceShip.vely;
+        this.asteroidGenerator.moveAsteroids();
         
         
         

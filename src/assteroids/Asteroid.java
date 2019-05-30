@@ -6,6 +6,7 @@
 package assteroids;
 
 import org.newdawn.slick.SlickException;
+import java.lang.Math;
 
 /**
  *
@@ -13,8 +14,21 @@ import org.newdawn.slick.SlickException;
  */
 public class Asteroid extends GameObject{
     
-    public Asteroid(int x, int y, String ref) throws SlickException {
+    
+    public Asteroid(int x, int y, String ref, Ship player) throws SlickException {
         super(x, y, ref);
+        
+        this.direction = (float) Math.asin((Math.abs(player.x - this.x))/(Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2))));
+        this.velx = (player.x - this.x)/200;
+        this.vely = (player.y - this.y)/200;
+        this.img.setRotation((float) Math.toDegrees(-this.direction));
     }
     
+    public void move(){
+        this.x += this.velx;
+        this.y += this.vely;
+    }
+    
+        
 }
+
