@@ -27,7 +27,33 @@ public class AsteroidGenerator {
     public void spawnAsteroids(int delta, Ship player) throws SlickException{
         this.counter += delta;
         if(this.counter >= 100*delta){
-            this.asteroids.add(new Asteroid(640, 0, "res/asteroid.png", player));
+            int yOrX = (int) Math.round(Math.random());
+            int xPos = 0; 
+            int yPos = 0;
+            int border;
+            switch(yOrX){
+                case 0:
+                    border = (int) Math.round(Math.random());
+                    if(border == 0){
+                        xPos = 0;
+                        yPos = (int)(Math.random() * 960 + 1);
+                        break;
+                    }
+                    xPos = 1280;
+                    yPos = (int)(Math.random() * 960 + 1);
+                    break;
+                case 1:
+                    border = (int) Math.round(Math.random());
+                    if(border == 0){
+                        xPos = (int)(Math.random() * 1280 + 1);
+                        yPos = 0;
+                        break;
+                    }
+                    xPos = (int)(Math.random() * 1280 + 1);
+                    yPos = 960;
+                    break;
+            }
+            this.asteroids.add(new Asteroid(xPos, yPos, "res/asteroid.png", player));
             this.counter = 0;
         }         
             
