@@ -13,8 +13,8 @@ import java.lang.Math;
  */
 class Shot extends GameObject{
     
-    Shot(int x, int y, String ref, float direction) throws SlickException{
-        super(x, y, ref);
+    Shot(float x, float y, String ref, float direction) throws SlickException{
+        super(x, y, ref);d
         this.velx = -1 * Math.cos(Math.toRadians(direction));
         this.vely = -1 * Math.sin(Math.toRadians(direction));
         this.direction = direction;

@@ -29,9 +29,9 @@ public class Play extends BasicGameState {
         this.spaceShip.img.setCenterOfRotation(28, 28);
         this.ast = new Asteroid(500, 500, "res/ast1.png");
         this.ast.img.setCenterOfRotation(25, 25);
-        timeCounter = 0;
-        
     }
+    
+    
     
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
@@ -41,49 +41,20 @@ public class Play extends BasicGameState {
         
         Input input = gc.getInput();
         
-        
         ast.spin(-0.24f * delta);
         ast.img.rotate(-0.24f * delta);
-        
-        
-        
-        
-        
-        
+
         if(input.isKeyDown(Keyboard.KEY_RETURN)){
             sbg.enterState(1);
         }
         
-        if(input.isKeyDown(Keyboard.KEY_W)){
-            spaceShip.accelerate(-0.01);
-        }
-        if(input.isKeyDown(Keyboard.KEY_S)){
-            spaceShip.accelerate(0.01);
-        }
         
-        if(input.isKeyDown(Keyboard.KEY_A)){
-            spaceShip.turn(-0.24f * delta);
-            spaceShip.img.rotate(-0.24f * delta);
-        }
+        spaceShip.move(gc, delta);
         
-        if(input.isKeyDown(Keyboard.KEY_D)){
-            spaceShip.turn(0.24f * delta);
-            spaceShip.img.rotate(0.24f * delta);
-        }
-        
-        if(input.isKeyDown(Keyboard.KEY_F) && timeCounter >= 5 *delta){
-            timeCounter = 0;
-            spaceShip.shoot();
-        }
-        
-        timeCounter += delta;
         spaceShip.shots.moveShots(delta);
         spaceShip.y += delta * spaceShip.vely;
         spaceShip.x += delta * spaceShip.velx;
-        
-        
-        
-        
+           
     }
 
     @Override
@@ -93,7 +64,7 @@ public class Play extends BasicGameState {
         //grphcs.drawRect(50, 100, 20 , 60);
         
         grphcs.drawString(mouse, 50, 50);
-        spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        spaceShip.draw(spaceShip);
         ast.img.draw(500, 500, 100, 100);
         
         if(spaceShip.x > 1280){
@@ -121,6 +92,7 @@ public class Play extends BasicGameState {
         spaceShip.shots.showShots();
     }
 
+    
     
 
     @Override

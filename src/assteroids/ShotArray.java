@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 /**
  *
  * @author dlcaio
- */
+f */
 class ShotArray{
     ArrayList<Shot> shots;
     
@@ -19,8 +19,8 @@ class ShotArray{
         this.shots = new ArrayList<>();
     }
     
-    void add(int x, int y, float direction) throws SlickException{
-        Shot newShot = new Shot(x + 15, y + 5, "res/shot.png", direction);
+    void add(float x, float y, float direction) throws SlickException{
+        Shot newShot = new Shot(x, y, "res/shot.png", direction);
         //newShot.img.setCenterOfRotation(28, 28);
         newShot.img.setRotation(direction - 90);
         shots.add(newShot);
