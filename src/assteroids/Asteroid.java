@@ -7,6 +7,7 @@ package assteroids;
 
 import org.newdawn.slick.SlickException;
 import java.lang.Math;
+import java.util.Iterator;
 
 /**
  *
@@ -27,6 +28,8 @@ public class Asteroid extends GameObject{
     public void move(){
         this.x += this.velx;
         this.y += this.vely;
+        
+        
     }
     
         

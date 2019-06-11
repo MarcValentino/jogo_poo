@@ -13,7 +13,7 @@ import org.newdawn.slick.*;
  */
 public class AsteroidGenerator {
     
-    private ArrayList<Asteroid> asteroids;
+    public ArrayList<Asteroid> asteroids;
     private int limitX, limitY;
     private float counter;
     
@@ -62,12 +62,15 @@ public class AsteroidGenerator {
     public void moveAsteroids(){
         for(Asteroid asteroid : this.asteroids){
             asteroid.move();
+            asteroid.moldura.setCenterX(asteroid.x);
+            asteroid.moldura.setCenterY(asteroid.y);
         }
     }
     
-    public void showAsteroids(){
+    public void showAsteroids(Graphics g){
         for(Asteroid asteroid : this.asteroids){
             asteroid.img.draw(asteroid.x, asteroid.y);
+            g.draw(asteroid.moldura);
         }
     }
     

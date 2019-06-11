@@ -5,20 +5,34 @@
  */
 package assteroids;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 /**
  *
  * @author MVale
  */
-public abstract class GameObject {
+public class GameObject {
     public int x, y;
     Image img;
     float imgscale;
     float direction;
     public double velx, vely;
+    Shape moldura;
     
     GameObject(int x, int y, String ref) throws SlickException{
         this.x = x;
         this.y = y;
         this.img = new Image(ref);
+        this.moldura = new Circle(x, y, 70);
+        
+    
     }
+    
+    
+    public void drawObject(Graphics gr){
+        this.img.draw(this.x, this.y, this.imgscale);
+        gr.draw(moldura);
+        
+    }
+    
 }

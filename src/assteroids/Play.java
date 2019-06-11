@@ -4,10 +4,15 @@
  * and open the template in the editor.
  */
 package assteroids;
+import java.util.Iterator;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
+
+
 /**
  *
  * @author MVale
@@ -18,7 +23,8 @@ public class Play extends BasicGameState {
     float timeCounter;
     String mouse = "No input yet";
     AsteroidGenerator asteroidGenerator;
-    
+
+        
     public Play(int state){
         
     }
@@ -27,6 +33,7 @@ public class Play extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
         this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
         this.spaceShip.img.setCenterOfRotation(28, 28);
+        
         timeCounter = 0;
         this.asteroidGenerator = new AsteroidGenerator(1280, 960);
         
@@ -38,9 +45,16 @@ public class Play extends BasicGameState {
         //grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
         //grphcs.drawRect(50, 100, 20 , 60);
         grphcs.drawString(mouse, 50, 50);
+        
         spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
-        this.asteroidGenerator.showAsteroids();
-        spaceShip.shots.showShots();
+        grphcs.draw(spaceShip.moldura);
+        
+        //spaceShip.drawObject(grphcs);
+        
+        this.asteroidGenerator.showAsteroids(grphcs);
+        spaceShip.showShots(grphcs);
+        
+        
     }
 
     @Override
@@ -77,13 +91,37 @@ public class Play extends BasicGameState {
             spaceShip.shoot();
         }
         
+        spaceShip.moldura.setCenterX(spaceShip.x);
+        spaceShip.moldura.setCenterY(spaceShip.y);
+        
         timeCounter += delta;
-        spaceShip.shots.moveShots(delta);
+        spaceShip.moveShots(delta, asteroidGenerator);
         spaceShip.y += delta * spaceShip.vely;
         spaceShip.x += delta * spaceShip.velx;
         spaceShip.bicoX += delta * spaceShip.velx;
         spaceShip.bicoY += delta * spaceShip.vely;
         this.asteroidGenerator.moveAsteroids();
+        
+        Iterator<Shot> iterShots = spaceShip.shots.iterator();
+        Iterator<Asteroid> iterAsts = this.asteroidGenerator.asteroids.iterator();
+        
+        while(iterAsts.hasNext()){
+            Asteroid ast = iterAsts.next();
+            if(ast.moldura.intersects(spaceShip.moldura)){
+                sbg.enterState(0);
+                sbg.init(gc);
+            }
+            while(iterShots.hasNext()){
+                Shot s = iterShots.next();
+                if(s.moldura.intersects(ast.moldura)){
+                    iterShots.remove();
+                    iterAsts.remove();
+                    //this.asteroidGenerator.asteroids.remove(ast);
+                }
+            }
+            
+            
+        }
         
         
         
