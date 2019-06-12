@@ -102,7 +102,7 @@ public class Play extends BasicGameState {
         spaceShip.bicoY += delta * spaceShip.vely;
         this.asteroidGenerator.moveAsteroids();
         
-        Iterator<Shot> iterShots = spaceShip.shots.iterator();
+        //Iterator<Shot> iterShots = spaceShip.shots.iterator();
         Iterator<Asteroid> iterAsts = this.asteroidGenerator.asteroids.iterator();
         
         while(iterAsts.hasNext()){
@@ -111,11 +111,13 @@ public class Play extends BasicGameState {
                 sbg.enterState(0);
                 sbg.init(gc);
             }
+            Iterator<Shot> iterShots = spaceShip.shots.iterator();
             while(iterShots.hasNext()){
                 Shot s = iterShots.next();
                 if(s.moldura.intersects(ast.moldura)){
                     iterShots.remove();
                     iterAsts.remove();
+                    break;
                     //this.asteroidGenerator.asteroids.remove(ast);
                 }
             }
