@@ -9,6 +9,7 @@ import org.newdawn.slick.*;
 import java.lang.Math;
 import java.util.Iterator;
 import java.util.List;
+import org.newdawn.slick.geom.Circle;
 /**
  *
  * @author MVale
@@ -20,8 +21,8 @@ class Shot extends GameObject{
         this.velx = -1 * Math.cos(Math.toRadians(direction));
         this.vely = -1 * Math.sin(Math.toRadians(direction));
         this.direction = direction;
+        this.moldura = new Circle(this.x, this.y, 10);
         }
-    
     }
 
 

@@ -56,7 +56,11 @@ public class AsteroidGenerator {
             this.asteroids.add(new Asteroid(xPos, yPos, "res/asteroid.png", player));
             this.counter = 0;
         }         
-            
+    }
+    
+    public void spawn(Asteroid asteroid) throws SlickException{
+        this.asteroids.add(new Asteroid(asteroid));
+        this.asteroids.add(new Asteroid(asteroid));
     }
     
     public void moveAsteroids(){
@@ -69,7 +73,7 @@ public class AsteroidGenerator {
     
     public void showAsteroids(Graphics g){
         for(Asteroid asteroid : this.asteroids){
-            asteroid.img.draw(asteroid.x, asteroid.y);
+            asteroid.drawObject(g);
             g.draw(asteroid.moldura);
         }
     }

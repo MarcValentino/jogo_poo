@@ -23,14 +23,13 @@ public class GameObject {
         this.x = x;
         this.y = y;
         this.img = new Image(ref);
-        this.moldura = new Circle(x, y, 70);
-        
-    
+        this.moldura = new Circle(x, y, 50);
+       
     }
     
     
     public void drawObject(Graphics gr){
-        this.img.draw(this.x, this.y, this.imgscale);
+        this.img.drawCentered(moldura.getCenterX(), moldura.getCenterY());
         gr.draw(moldura);
         
     }
