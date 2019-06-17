@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Shape;
  *
  * @author MVale
  */
-public class GameObject {
+public abstract class GameObject {
     public int x, y;
     Image img;
     String ref;
@@ -23,7 +23,8 @@ public class GameObject {
     GameObject(int x, int y, String ref) throws SlickException{
         this.x = x;
         this.y = y;
-        this.img = new Image(ref);
+        this.ref = ref;
+        this.img = new Image(this.ref);
         this.moldura = new Circle(x, y, 50);
        
     }
@@ -34,5 +35,7 @@ public class GameObject {
         gr.draw(moldura);
         
     }
+    
+    public abstract boolean bound();
     
 }

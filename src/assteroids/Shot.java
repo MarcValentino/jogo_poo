@@ -16,14 +16,36 @@ import org.newdawn.slick.geom.Circle;
  */
 class Shot extends GameObject{
     
-    Shot(int x, int y, String ref, float direction) throws SlickException{
-        super(x, y, ref);
+    Shot(int x, int y, float direction) throws SlickException{
+        super(x, y, "res/shot.png");
         this.velx = -1 * Math.cos(Math.toRadians(direction));
         this.vely = -1 * Math.sin(Math.toRadians(direction));
         this.direction = direction;
         this.moldura = new Circle(this.x, this.y, 10);
         }
+
+    @Override
+    public boolean bound() {
+        if (this.x + this.img.getWidth()/2 < 0){
+            return false;
+        }
+        
+        if (this.x > 1280 + this.img.getWidth()/2){
+            return false;            
+        }
+        
+        if (this.y + this.img.getHeight()/2 < 0){
+            return false;
+        }
+        
+        if (this.y > 960 + this.img.getHeight()/2){
+            return false;
+            
+        }
+        return true;
+       
     }
+}
 
 
 

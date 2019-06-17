@@ -5,6 +5,7 @@
  */
 package assteroids;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.newdawn.slick.*;
 
 /**
@@ -53,7 +54,7 @@ public class AsteroidGenerator {
                     yPos = 960;
                     break;
             }
-            this.asteroids.add(new Asteroid(xPos, yPos, "res/asteroid.png", player));
+            this.asteroids.add(new Asteroid(xPos, yPos, player));
             this.counter = 0;
         }         
     }
@@ -68,11 +69,34 @@ public class AsteroidGenerator {
     }
     
     public void moveAsteroids(){
-        for(Asteroid asteroid : this.asteroids){
+        /*for(Asteroid asteroid : this.asteroids){
             asteroid.move();
             asteroid.moldura.setCenterX(asteroid.x);
             asteroid.moldura.setCenterY(asteroid.y);
+        }*/
+        
+        Iterator<Asteroid> iterAsts = this.asteroids.iterator();
+        
+        while(iterAsts.hasNext()){
+            Asteroid ast = iterAsts.next();
+            ast.move();
+            ast.moldura.setCenterX((float) (ast.x));
+            
+            ast.moldura.setCenterY((float) (ast.y));
+            if(ast.bound() == false){
+                iterAsts.remove();
+                
+            }
+        
         }
+    }
+    
+    public int count(){
+        int x = 0;
+        for(Asteroid a : this.asteroids){
+            x += 1;
+        }
+        return x;
     }
     
     public void showAsteroids(Graphics g){

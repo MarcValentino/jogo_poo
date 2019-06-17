@@ -17,11 +17,11 @@ import org.newdawn.slick.geom.Circle;
 public class Asteroid extends GameObject{
     
     int hp;
-    //String ref;
     
-    public Asteroid(int x, int y, String ref, Ship player) throws SlickException {
-        super(x, y, ref);
-        this.ref = ref;
+    
+    public Asteroid(int x, int y, Ship player) throws SlickException {
+        super(x, y, "res/asteroid.png");
+        
         this.direction = (float) Math.asin((Math.abs(player.x - this.x))/(Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2))));
         this.velx = (2*(player.x - this.x))/Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2));
         this.vely = (2*(player.y - this.y))/Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2));
@@ -34,7 +34,6 @@ public class Asteroid extends GameObject{
     
     public Asteroid(Asteroid asteroid) throws SlickException {
         super(asteroid.x, asteroid.y, asteroid.ref);
-        this.ref = asteroid.ref; //a ausencia disso tava bugando o codigo todo, mas nao entendi porque é necessario
         
         this.direction = (float) (Math.random() * 2 *(Math.PI)); // Math.asin((Math.abs(player.x - this.x))/(Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2))));
         this.velx = Math.sqrt(Math.pow(this.velx, 2) + Math.pow(this.vely, 2)) * Math.cos(-this.direction);
@@ -52,6 +51,28 @@ public class Asteroid extends GameObject{
         this.y += this.vely;
         
         
+    }
+
+    @Override
+    public boolean bound() {
+        if (this.x + this.img.getWidth()/2 < 0){
+            return false;
+        }
+        
+        if (this.x > 1280 + this.img.getWidth()/2){
+            return false;            
+        }
+        
+        if (this.y + this.img.getHeight()/2 < 0){
+            return false;
+        }
+        
+        if (this.y > 960 + this.img.getHeight()/2){
+            return false;
+            
+        }
+        return true;
+       
     }
     
         

@@ -8,6 +8,8 @@ package assteroids;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
@@ -21,8 +23,8 @@ public class Ship extends GameObject{
     float timeCounter;
     
     
-    Ship(int x, int y, String ref, int bX, int bY) throws SlickException{
-        super(x, y, ref);
+    Ship(int x, int y) throws SlickException{
+        super(x, y, "res/ship.png");
         imgscale = 0.1f;
         this.shots = new ArrayList<>();
         this.img.setCenterOfRotation(moldura.getCenterX(), moldura.getCenterY());
@@ -86,7 +88,7 @@ public class Ship extends GameObject{
     }
     
     void add(int x, int y, float direction) throws SlickException{
-        Shot newShot = new Shot(x, y, "res/shot.png", direction);
+        Shot newShot = new Shot(x, y, direction);
         //newShot.img.setCenterOfRotation(28, 28);
         newShot.img.setRotation(direction - 90);
         shots.add(newShot);
@@ -97,14 +99,21 @@ public class Ship extends GameObject{
     }
     
     void moveShots(float delta){
-        for(Shot shot : this.shots){
-            //shot.x += shot.velx * delta;
-            //shot.y += shot.vely * delta;
-            shot.moldura.setX((float) (shot.moldura.getX() + shot.velx * delta));
-            shot.moldura.setY((float) (shot.moldura.getY() + shot.vely * delta));
-            //shot.moldura.setCenterX(moldura.getCenterX());
-            //shot.moldura.setCenterY(shot.y);
+        Iterator<Shot> iterShots = this.shots.iterator();
+        
+        while(iterShots.hasNext()){
+            Shot s = iterShots.next();
+            s.moldura.setX((float) (s.moldura.getX() + s.velx * delta));
+            s.x = (int) s.moldura.getX();
+            s.moldura.setY((float) (s.moldura.getY() + s.vely * delta));
+            s.y = (int) s.moldura.getY();
+            if(s.bound() == false){
+                iterShots.remove();
+                
+            }
+        
         }
+        
     }
     
     void showShots(Graphics g){
@@ -112,6 +121,29 @@ public class Ship extends GameObject{
             shot.img.drawCentered(shot.moldura.getCenterX(), shot.moldura.getCenterY());
             g.draw(shot.moldura);
         }
+    }
+
+    @Override
+    public boolean bound() {
+        if (this.x + this.img.getWidth()/2 < 0){
+            this.x = 1280 + this.img.getWidth()/2;
+        }
+        
+        if (this.x > 1280 + this.img.getWidth()/2){
+            this.x = 0 - this.img.getWidth()/2;
+            
+        }
+        
+        if (this.y + this.img.getHeight()/2 < 0){
+            this.y = 960 + this.img.getHeight()/2;
+        }
+        
+        if (this.y > 960 + this.img.getHeight()/2){
+            this.y = 0 - this.img.getHeight()/2;
+            
+        }
+       
+        return true;
     }
 
 }

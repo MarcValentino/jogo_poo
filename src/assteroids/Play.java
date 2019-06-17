@@ -38,7 +38,7 @@ public class Play extends BasicGameState {
     
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
+        this.spaceShip = new Ship(320, 180);
         //this.spaceShip.img.setCenterOfRotation(28, 28);
         
         timeCounter = 0;
@@ -67,6 +67,7 @@ public class Play extends BasicGameState {
         spaceShip.behave(gc, delta); // Lógica de movimento da nave
         this.asteroidGenerator.moveAsteroids();
         collision(sbg);
+        spaceShip.bound();
     }
     
     public void collision(StateBasedGame sbg) throws SlickException{
