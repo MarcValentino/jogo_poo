@@ -14,6 +14,7 @@ import org.newdawn.slick.geom.Shape;
 public class GameObject {
     public int x, y;
     Image img;
+    String ref;
     float imgscale;
     float direction;
     public double velx, vely;

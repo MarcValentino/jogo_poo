@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Circle;
 public class Asteroid extends GameObject{
     
     int hp;
-    String ref;
+    //String ref;
     
     public Asteroid(int x, int y, String ref, Ship player) throws SlickException {
         super(x, y, ref);
@@ -26,7 +26,7 @@ public class Asteroid extends GameObject{
         this.velx = (2*(player.x - this.x))/Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2));
         this.vely = (2*(player.y - this.y))/Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2));
         this.img.setRotation((float) Math.toDegrees(-this.direction));
-        hp = (int) (Math.random() * 4 + 1);
+        this.hp = (int) (Math.random() * 5 + 1);
         this.imgscale = hp * 0.6f;
         this.img = this.img.getScaledCopy(this.imgscale);
         this.moldura = new Circle(this.x, this.y, 13 * hp);
@@ -34,15 +34,17 @@ public class Asteroid extends GameObject{
     
     public Asteroid(Asteroid asteroid) throws SlickException {
         super(asteroid.x, asteroid.y, asteroid.ref);
+        this.ref = asteroid.ref; //a ausencia disso tava bugando o codigo todo, mas nao entendi porque é necessario
         
         this.direction = (float) (Math.random() * 2 *(Math.PI)); // Math.asin((Math.abs(player.x - this.x))/(Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2))));
         this.velx = Math.sqrt(Math.pow(this.velx, 2) + Math.pow(this.vely, 2)) * Math.cos(-this.direction);
         this.vely = Math.sqrt(Math.pow(this.velx, 2) + Math.pow(this.vely, 2)) * Math.sin(-this.direction);
         this.img.setRotation((float) Math.toDegrees(-this.direction));
-        hp = asteroid.hp - 1;
-        this.imgscale = hp * 0.6f;
+        this.hp = asteroid.hp - 1;
+        
+        this.imgscale = this.hp * 0.6f;
         this.img = this.img.getScaledCopy(this.imgscale);
-        this.moldura = new Circle(this.x, this.y, 13 * hp);
+        this.moldura = new Circle(this.x, this.y, 13 * this.hp);
     }
     
     public void move(){

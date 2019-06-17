@@ -59,8 +59,12 @@ public class AsteroidGenerator {
     }
     
     public void spawn(Asteroid asteroid) throws SlickException{
-        this.asteroids.add(new Asteroid(asteroid));
-        this.asteroids.add(new Asteroid(asteroid));
+        System.out.println(asteroid == null);
+        Asteroid t = new Asteroid(asteroid);
+        
+        this.asteroids.add(t);
+        Asteroid b = new Asteroid(asteroid);
+        this.asteroids.add(b);
     }
     
     public void moveAsteroids(){

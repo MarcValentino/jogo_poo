@@ -66,13 +66,14 @@ public class Play extends BasicGameState {
         this.asteroidGenerator.spawnAsteroids(delta, this.spaceShip);
         spaceShip.behave(gc, delta); // Lógica de movimento da nave
         this.asteroidGenerator.moveAsteroids();
-        
         collision(sbg);
     }
     
     public void collision(StateBasedGame sbg) throws SlickException{
     Iterator<Asteroid> iterAsts = this.asteroidGenerator.asteroids.iterator();
     Asteroid temp = null;
+    
+        
         while(iterAsts.hasNext()){
             Asteroid ast = iterAsts.next();
             if(ast.moldura.intersects(spaceShip.moldura)){
@@ -83,16 +84,22 @@ public class Play extends BasicGameState {
                 Shot s = iterShots.next();
                 if(s.moldura.intersects(ast.moldura)){
                     iterShots.remove();
+                    System.out.println("temp antes de ter ast atribuido a si " + temp);
                     temp = ast;
+                    System.out.println("temp depois de ter ast atribuido a si " + temp);
                     iterAsts.remove();
                   
                     break;
-                    //this.asteroidGenerator.asteroids.remove(ast);
                 }
             }            
         }
         
-        if(temp!=null) asteroidGenerator.spawn(temp);
+        if(temp!=null && temp.hp > 1){
+            
+            System.out.println("entrou em temp != null");
+            this.asteroidGenerator.spawn(temp);
+        }
+        
     }
     
 
