@@ -36,8 +36,8 @@ public class Asteroid extends GameObject{
         super(asteroid.x, asteroid.y, asteroid.ref);
         
         this.direction = (float) (Math.random() * 2 *(Math.PI)); // Math.asin((Math.abs(player.x - this.x))/(Math.sqrt(Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2))));
-        this.velx = Math.sqrt(Math.pow(this.velx, 2) + Math.pow(this.vely, 2)) * Math.cos(-this.direction);
-        this.vely = Math.sqrt(Math.pow(this.velx, 2) + Math.pow(this.vely, 2)) * Math.sin(-this.direction);
+        this.velx = Math.sqrt(Math.pow(asteroid.velx, 2) + Math.pow(asteroid.vely, 2)) * Math.cos(-this.direction);
+        this.vely = Math.sqrt(Math.pow(asteroid.velx, 2) + Math.pow(asteroid.vely, 2)) * Math.sin(-this.direction);
         this.img.setRotation((float) Math.toDegrees(-this.direction));
         this.hp = asteroid.hp - 1;
         
