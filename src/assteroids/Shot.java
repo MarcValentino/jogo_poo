@@ -4,54 +4,45 @@
  * and open the template in the editor.
  */
 package assteroids;
-import java.util.ArrayList;
 import org.newdawn.slick.*;
-import java.lang.Math;
+
+import org.newdawn.slick.geom.Circle;
 /**
  *
  * @author MVale
  */
 class Shot extends GameObject{
     
-    Shot(int x, int y, String ref, float direction) throws SlickException{
-        super(x, y, ref);
+    Shot(int x, int y, float direction) throws SlickException{
+        super(x, y, "res/shot.png");
         this.velx = -1 * Math.cos(Math.toRadians(direction));
         this.vely = -1 * Math.sin(Math.toRadians(direction));
         this.direction = direction;
+        this.moldura = new Circle(this.getX(), this.y, 10);
+        }
+
+    @Override
+    public boolean bound() {
+        if (this.getX() + this.img.getWidth()/2 < 0){
+            return false;
+        }
+        
+        if (this.getX() > Asteroids.windowSizeX + this.img.getWidth()/2){
+            return false;            
+        }
+        
+        if (this.y + this.img.getHeight()/2 < 0){
+            return false;
+        }
+        
+        if (this.y > Asteroids.windowSizeY + this.img.getHeight()/2){
+            return false;
+            
+        }
+        return true;
+       
     }
-    
 }
 
-class ShotArray{
-    ArrayList<Shot> shots;
-    
-    ShotArray(){
-        this.shots = new ArrayList<>();
-    }
-    
-    void add(int x, int y, float direction) throws SlickException{
-        Shot newShot = new Shot(x, y, "res/shot.png", direction);
-        newShot.img.setCenterOfRotation(28, 28);
-        newShot.img.setRotation(direction - 90);
-        shots.add(newShot);
-    }
-    
-    void remove(int index){
-        shots.remove(index);
-    }
-    
-    void moveShots(int delta){
-        for(Shot shot : this.shots){
-            shot.x += shot.velx * delta;
-            shot.y += shot.vely * delta;
-        }
-    }
-    
-    void showShots(){
-        for(Shot shot : this.shots){
-            shot.img.setCenterOfRotation(28, 28);
-            shot.img.draw(shot.x, shot.y);
-        }
-    }
 
-}
+

@@ -4,10 +4,14 @@
  * and open the template in the editor.
  */
 package assteroids;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.input.Keyboard;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+
+
+
 /**
  *
  * @author MVale
@@ -15,75 +19,87 @@ import org.newdawn.slick.state.*;
 public class Play extends BasicGameState {
 
     Ship spaceShip;
-    float timeCounter;
-    String mouse = "No input yet";
-    
+    AsteroidGenerator asteroidGenerator;
+    static float pont = 0;
+
+        
     public Play(int state){
         
     }
-
+    
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+        init(container, game);
+    }
+    
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        this.spaceShip = new Ship(320, 180, "res/ship.png", 335, 180);
-        this.spaceShip.img.setCenterOfRotation(28, 28);
-        timeCounter = 0;
+        this.spaceShip = new Ship(Asteroids.windowSizeX/2, Asteroids.windowSizeY/2);        
+        this.asteroidGenerator = new AsteroidGenerator();
         
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs){
-        //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
-        //grphcs.drawString("ASTEROIDS", 1280/2, 960/2);
-        //grphcs.drawRect(50, 100, 20 , 60);
-        grphcs.drawString(mouse, 50, 50);
-        spaceShip.img.draw(spaceShip.x, spaceShip.y, 50, 50);
+        spaceShip.drawObject(grphcs);
+        asteroidGenerator.showAsteroids(grphcs);
+        spaceShip.showShots(grphcs);
+        grphcs.drawString("Pontuação: " + pont, Asteroids.windowSizeX - 200, 20);
         
-        spaceShip.shots.showShots();
+        
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
-        int x = Mouse.getX();
-        int y = Mouse.getY();
-        mouse = "x :" + x + " y: " + y;
-        Input input = gc.getInput();
+        float dt = delta/1000f;
+        pont += dt;
+        this.spaceShip.behave(gc, delta); // Lógica de movimento da nave
+        this.asteroidGenerator.behaveAsts(delta, this.spaceShip);
+        collision(sbg);
         
-        if(input.isKeyDown(Keyboard.KEY_RETURN)){
-            sbg.enterState(1);
+    }
+    
+    public void collision(StateBasedGame sbg) throws SlickException{
+        ArrayList<Asteroid> currentAsteroids = this.asteroidGenerator.getAsteroids();
+        Iterator<Asteroid> iterAsts = currentAsteroids.iterator();
+        Asteroid temp = null;
+    
+        
+        while(iterAsts.hasNext()){
+            Asteroid ast = iterAsts.next();
+            if(ast.moldura.intersects(spaceShip.moldura)){
+                sbg.enterState(0);
+            }
+            ArrayList<Shot> playerShots = spaceShip.getShots();
+            Iterator<Shot> iterShots = playerShots.iterator();
+            while(iterShots.hasNext()){
+                Shot s = iterShots.next();
+                if(s.moldura.intersects(ast.moldura)){
+                    pont += 10;
+                    iterShots.remove();
+                    temp = ast;
+                    iterAsts.remove();
+                  
+                    break;
+                }
+            }
+            spaceShip.setShots(playerShots);
         }
         
-        if(input.isKeyDown(Keyboard.KEY_W)){
-            spaceShip.accelerate(-0.01);
-        }
-        if(input.isKeyDown(Keyboard.KEY_S)){
-            spaceShip.accelerate(0.01);
-        }
+        this.asteroidGenerator.setAsteroids(currentAsteroids);
         
-        if(input.isKeyDown(Keyboard.KEY_A)){
-            spaceShip.turn(-0.24f * delta);
-            spaceShip.img.rotate(-0.24f * delta);
-        }
         
-        if(input.isKeyDown(Keyboard.KEY_D)){
-            spaceShip.turn(0.24f * delta);
-            spaceShip.img.rotate(0.24f * delta);
-        }
         
-        if(input.isKeyDown(Keyboard.KEY_F) && timeCounter >= 5 *delta){
-            timeCounter = 0;
-            spaceShip.shoot();
+        if(temp!=null && temp.getHp() > 1){
+            
+            System.out.println("entrou em temp != null");
+            this.asteroidGenerator.spawn(temp);
         }
-        
-        timeCounter += delta;
-        spaceShip.shots.moveShots(delta);
-        spaceShip.y += delta * spaceShip.vely;
-        spaceShip.x += delta * spaceShip.velx;
-        spaceShip.bicoX += delta * spaceShip.velx;
-        spaceShip.bicoY += delta * spaceShip.vely;
         
         
         
     }
+    
 
     @Override
     public int getID() {

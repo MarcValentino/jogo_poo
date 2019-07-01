@@ -6,6 +6,9 @@
 package assteroids;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.*;
@@ -18,9 +21,9 @@ import org.newdawn.slick.*;
 
 public class Menu extends BasicGameState{
     
-    Image pressStart, fAsteroid;
-    String mouse = "n mexeu n vei";
-    float timeCounter;   
+    Image pressStart;
+    File file = new File("leaderBoard.txt");
+    
     public Menu(int state){
         
     }
@@ -28,31 +31,35 @@ public class Menu extends BasicGameState{
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
          pressStart = new Image("res/press.png");
-         fAsteroid = new Image("res/asteroid.png");
          //this.spaceShip.img.setCenterOfRotation(this.spaceShip.x + 25, this.spaceShip.y + 25);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException{
         //grphcs.drawString("shots: " + spaceShip.shots.shots.isEmpty(), 0, 0);
-        
-        //grphcs.drawString(mouse, 300, 300);
+        if(Play.pont > 0){
+            grphcs.drawString("Sua pontuação foi: " + Play.pont, 300, 20);
+            try {
+                PrintWriter output = new PrintWriter(file);
+                output.println("Jogador 1: " + Play.pont);
+                output.close();
+            }
+            catch (IOException ex){
+                System.out.println("ERRO: " + ex);
+            }
+
+        }
         
         grphcs.drawImage(pressStart, (1280 - pressStart.getWidth())/2, 600);
-        //grphcs.drawImage(fAsteroid, (1280 - fAsteroid.getWidth())/2, 300);
         
-        //grphcs.drawRect(50, 100, 20 , 60);
         
         
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
-        //int x = Mouse.getX();
-        //int y = Mouse.getY();
-        //mouse = "x :" + x + " y: " + y;
+       
         Input input = gc.getInput();
-        
         if(input.isKeyDown(Keyboard.KEY_RETURN)){
             sbg.enterState(1);
         }

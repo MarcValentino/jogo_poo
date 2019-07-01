@@ -17,9 +17,14 @@ public class Asteroids extends StateBasedGame{
     public static final String name = "Assteroids";
     public static final int menu = 0;
     public static final int play = 1;
+    public static final int windowSizeX = 1280;
+    public static final int windowSizeY = 960;
+    
     
     public Asteroids(String name) throws SlickException{
         super(name);
+        
+
         this.addState(new Menu(menu));
         this.addState(new Play(play));
         
@@ -30,7 +35,7 @@ public class Asteroids extends StateBasedGame{
         try{
             appgc = new AppGameContainer(new Asteroids(name));
             appgc.setTargetFrameRate(60);
-            appgc.setDisplayMode(1280, 960, false);
+            appgc.setDisplayMode(windowSizeX, windowSizeY, false);
             appgc.start();
         }catch(SlickException e){
             e.printStackTrace();
@@ -43,5 +48,7 @@ public class Asteroids extends StateBasedGame{
         this.getState(play).init(gc, this);
         this.enterState(menu);
     }
+    
+    
     
 }
